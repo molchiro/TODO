@@ -1,6 +1,6 @@
 <template lang="pug">
   v-layout
-    MyComponent(inherited="Hello World!!!!")
+    todo-list
 </template>
 
 <script lang="ts">
@@ -8,7 +8,7 @@ import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
   components: {
-    MyComponent: () => import('~/components/MyComponent.vue')
+    TodoList: () => import('~/components/TodoList.vue')
   }
 })
 export default class Index extends Vue {}
