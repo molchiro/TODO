@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import users from './modules/users'
+import auth from './modules/auth'
 import todos from './modules/todos'
 
 Vue.use(Vuex)
@@ -8,7 +8,7 @@ Vue.use(Vuex)
 const createStore = () => {
   return new Vuex.Store({
     modules: {
-      users,
+      auth,
       todos
     }
   })
