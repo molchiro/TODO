@@ -31,6 +31,10 @@ export default {
     signIn({ commit }): void {
       auth.signInWithRedirect(googleProvider)
     },
+    signOut({ commit }): void {
+      auth.signOut()
+      commit('loadedUser', null)
+    },
     async getCurrentUser({ commit }) {
       const currentUser: firebase.User | null = await new Promise((resolve, reject) => {
         auth.onAuthStateChanged(authenticatedUser => {
