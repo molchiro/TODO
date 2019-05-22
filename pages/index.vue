@@ -1,7 +1,8 @@
 <template lang="pug">
-  v-layout
+  v-layout(column)
     v-btn(@click="signOut") sign out
     todo-list
+    todo-post
 </template>
 
 <script lang="ts">
@@ -9,7 +10,8 @@ import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
   components: {
-    TodoList: () => import('~/components/TodoList.vue')
+    TodoList: () => import('~/components/TodoList.vue'),
+    TodoPost: () => import('~/components/TodoPost.vue')
   }
 })
 export default class Index extends Vue {

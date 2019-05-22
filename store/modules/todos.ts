@@ -1,3 +1,6 @@
+import { db } from '~/plugins/firebaseApp.js'
+const todosRef = db.collection('todos')
+
 interface todo {
   key: string,
   uid: string,
@@ -59,6 +62,14 @@ export default {
     },
     stopListener({ commit }) {
       commit('initialize')
+    },
+    add({ commit, rootState }, content) {
+      todosRef.add({
+        content: content,
+        uid: rootState.auth.authedUser.uid,
+        priority: 0,
+        done: false
+      })
     },
   }
 }
