@@ -26,7 +26,6 @@ class MyTodo implements todo {
 let unsubscribe: any = null
 
 export default {
-  unsubscribe: function () {},
   namespaced: true,
   state(): State {
     return {
