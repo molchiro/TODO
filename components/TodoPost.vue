@@ -17,6 +17,7 @@ export default class TodoPostComponent extends Vue {
   content: string = ''
   add(): void {
     this.$store.dispatch('todos/add', this.content)
+    this.content = ''
   }
 }
 </script>
