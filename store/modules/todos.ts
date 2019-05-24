@@ -14,27 +14,19 @@ interface State {
 }
 
 class MyTodo implements todo {
-  key: string
-  uid: string
-  content: string
-  priority: number
-  done: boolean
   constructor(
-    key: string,
-    uid: string,
-    content: string,
-    priority: number,
-    done: boolean
-  ) {
-    this.key = key
-    this.uid = uid
-    this.content = content
-    this.priority = priority
-    this.done = done
-  }
+    public key: string,
+    public  uid: string,
+    public content: string,
+    public priority: number,
+    public done: boolean
+  ) {}
 }
 
+let unsubscribe: any = null
+
 export default {
+  unsubscribe: function () {},
   namespaced: true,
   state(): State {
     return {
@@ -52,15 +44,30 @@ export default {
   actions: {
     startListener({ commit, rootState }) {
       commit('initialize')
-      const samples: todo[] = [
-        new MyTodo('123abc','abcde','hoge',1, true),
-        new MyTodo('456bcd','abcde','huga',2, false)
-      ]
-      samples.forEach(todo => {
-        commit('push', todo)
-      })
+      unsubscribe = db.collection('todos')
+        .where('uid', '==', rootState.auth.authedUser.uid)
+        .orderBy('priority', 'asc')
+        .onSnapshot(snapshot => {
+          snapshot.docChanges().forEach(change => {
+            if (change.type === 'added') {
+              const data: any = { ...change.doc.data() }
+              commit('push', new MyTodo(
+                change.doc.id,
+                data.uid,
+                data.content,
+                data.priority,
+                data.done)
+              )
+            } else if (change.type === 'modified') {
+              // 編集を検知した時の処理
+            } else if (change.type === 'removed') {
+              commit('pop', change.doc)
+            }
+          })
+        })
     },
     stopListener({ commit }) {
+      unsubscribe()
       commit('initialize')
     },
     add({ commit, rootState }, content) {
