@@ -39,11 +39,17 @@ export default {
     push(state: State, todo: todo) {
       state.todos.push(todo)
     },
+    update(state: State, todo: todo) {
+      const targetIndex = state.todos.findIndex(
+        x => x.key === todo.key
+      )
+      state.todos.splice(targetIndex, 1, todo)
+    },
   },
   actions: {
     startListener({ commit, rootState }) {
       commit('initialize')
-      unsubscribe = db.collection('todos')
+      unsubscribe = todosRef
         .where('uid', '==', rootState.auth.authedUser.uid)
         .orderBy('priority', 'asc')
         .onSnapshot(snapshot => {
@@ -58,7 +64,10 @@ export default {
                 data.done)
               )
             } else if (change.type === 'modified') {
-              // 編集を検知した時の処理
+              commit('update', {
+                key: change.doc.id,
+                ...change.doc.data(),
+              })
             } else if (change.type === 'removed') {
               commit('pop', change.doc)
             }
@@ -76,6 +85,19 @@ export default {
         priority: 0,
         done: false
       })
+    },
+    update({ state, rootState }, todo: todo) {
+      todosRef.doc(todo.key).set(
+        {
+          uid: todo.uid,
+          content: todo.content,
+          priority: todo.priority,
+          done: todo.done
+        },
+        {
+          merge: true,
+        }
+      )
     },
   }
 }
