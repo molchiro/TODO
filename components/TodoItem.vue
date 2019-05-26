@@ -1,10 +1,10 @@
 <template lang="pug">
-  v-card.px-2
-    v-layout
-      v-checkbox(
-        v-model='done'
-      )
-      v-flex {{todo.content}}
+  v-list-tile
+    v-checkbox(
+      v-model='done'
+    )
+    v-list-tile-content
+      v-list-tile-title {{todo.content}}
     
 </template>
 
