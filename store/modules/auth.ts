@@ -26,6 +26,9 @@ export default {
     isLoaded: state => {
       return state.isLoaded
     },
+    authedUserUid: state => {
+      return state.authedUser ? state.authedUser.uid : null
+    }
   },
   actions: {
     signIn({ commit }): void {

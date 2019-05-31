@@ -24,10 +24,10 @@ export default class TodoListComponent extends Vue {
     return this.$store.state.todos.todos
   }
   created(): void {
-    this.$store.dispatch('todos/startListener')
+    this.$store.dispatch('todos/bind')
   }
-  destroyed(): void {
-    this.$store.dispatch('todos/stopListener')
-  }
+  // destroyed(): void {
+  //   this.$store.dispatch('todos/stopListener')
+  // }
 }
 </script>

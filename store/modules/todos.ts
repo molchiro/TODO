@@ -1,3 +1,4 @@
+import { firestoreAction } from 'vuexfire'
 import { db } from '~/plugins/firebaseApp.js'
 const todosRef = db.collection('todos')
 
@@ -23,8 +24,6 @@ class MyTodo implements todo {
   ) {}
 }
 
-let unsubscribe: any = null
-
 export default {
   namespaced: true,
   state(): State {
@@ -47,37 +46,43 @@ export default {
     },
   },
   actions: {
-    startListener({ commit, rootState }) {
-      commit('initialize')
-      unsubscribe = todosRef
-        .where('uid', '==', rootState.auth.authedUser.uid)
-        .orderBy('priority', 'asc')
-        .onSnapshot(snapshot => {
-          snapshot.docChanges().forEach(change => {
-            if (change.type === 'added') {
-              const data: any = { ...change.doc.data() }
-              commit('push', new MyTodo(
-                change.doc.id,
-                data.uid,
-                data.content,
-                data.priority,
-                data.done)
-              )
-            } else if (change.type === 'modified') {
-              commit('update', {
-                key: change.doc.id,
-                ...change.doc.data(),
-              })
-            } else if (change.type === 'removed') {
-              commit('pop', change.doc)
-            }
-          })
-        })
-    },
-    stopListener({ commit }) {
-      unsubscribe()
-      commit('initialize')
-    },
+    // startListener({ commit, rootState }) {
+    //   commit('initialize')
+    //   unsubscribe = todosRef
+    //     .where('uid', '==', rootState.auth.authedUser.uid)
+    //     .orderBy('priority', 'asc')
+    //     .onSnapshot(snapshot => {
+    //       snapshot.docChanges().forEach(change => {
+    //         if (change.type === 'added') {
+    //           const data: any = { ...change.doc.data() }
+    //           commit('push', new MyTodo(
+    //             change.doc.id,
+    //             data.uid,
+    //             data.content,
+    //             data.priority,
+    //             data.done)
+    //           )
+    //         } else if (change.type === 'modified') {
+    //           commit('update', {
+    //             key: change.doc.id,
+    //             ...change.doc.data(),
+    //           })
+    //         } else if (change.type === 'removed') {
+    //           commit('pop', change.doc)
+    //         }
+    //       })
+    //     })
+    // },
+    // stopListener({ commit }) {
+    //   unsubscribe()
+    //   commit('initialize')
+    // },
+    bind: firestoreAction(({ bindFirestoreRef, rootGetters }) => {
+      return bindFirestoreRef(
+        'todos',
+        todosRef.where('uid', '==', rootGetters['auth/authedUserUid']).orderBy('priority', 'asc')
+      )
+    }),
     add({ commit, rootState }, content) {
       todosRef.add({
         content: content,
