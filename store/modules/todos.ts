@@ -3,7 +3,7 @@ import { db } from '~/plugins/firebaseApp.js'
 const todosRef = db.collection('todos')
 
 interface todo {
-  key: string,
+  id: string,
   uid: string,
   content: string,
   priority: number,
@@ -16,8 +16,8 @@ interface State {
 
 class MyTodo implements todo {
   constructor(
-    public key: string,
-    public  uid: string,
+    public id: string,
+    public uid: string,
     public content: string,
     public priority: number,
     public done: boolean
@@ -31,52 +31,7 @@ export default {
       todos: []
     }
   },
-  mutations: {
-    initialize(state: State) {
-      state.todos = []
-    },
-    push(state: State, todo: todo) {
-      state.todos.push(todo)
-    },
-    update(state: State, todo: todo) {
-      const targetIndex = state.todos.findIndex(
-        x => x.key === todo.key
-      )
-      state.todos.splice(targetIndex, 1, todo)
-    },
-  },
   actions: {
-    // startListener({ commit, rootState }) {
-    //   commit('initialize')
-    //   unsubscribe = todosRef
-    //     .where('uid', '==', rootState.auth.authedUser.uid)
-    //     .orderBy('priority', 'asc')
-    //     .onSnapshot(snapshot => {
-    //       snapshot.docChanges().forEach(change => {
-    //         if (change.type === 'added') {
-    //           const data: any = { ...change.doc.data() }
-    //           commit('push', new MyTodo(
-    //             change.doc.id,
-    //             data.uid,
-    //             data.content,
-    //             data.priority,
-    //             data.done)
-    //           )
-    //         } else if (change.type === 'modified') {
-    //           commit('update', {
-    //             key: change.doc.id,
-    //             ...change.doc.data(),
-    //           })
-    //         } else if (change.type === 'removed') {
-    //           commit('pop', change.doc)
-    //         }
-    //       })
-    //     })
-    // },
-    // stopListener({ commit }) {
-    //   unsubscribe()
-    //   commit('initialize')
-    // },
     bind: firestoreAction(({ bindFirestoreRef, rootGetters }) => {
       return bindFirestoreRef(
         'todos',
@@ -92,7 +47,7 @@ export default {
       })
     },
     update({ state, rootState }, todo: todo) {
-      todosRef.doc(todo.key).set(
+      todosRef.doc(todo.id).set(
         {
           uid: todo.uid,
           content: todo.content,

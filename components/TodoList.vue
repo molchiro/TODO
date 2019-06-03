@@ -6,7 +6,7 @@
         v-flex.text-xs-center(grow) content
       div.py-0(
         v-for="todo in todos"
-        :key="todo.key"
+        :key="todo.id"
       )
         todo-item(:todo="todo")
 </template>
