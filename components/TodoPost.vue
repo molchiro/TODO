@@ -1,12 +1,14 @@
 <template lang="pug">
-  v-form
-    v-layout(row)
-      v-text-field(
-        v-model="content"
-        @click:append="add"
-        append-icon="create"
-        solo
-      )
+  v-container.pa-2
+    v-form
+      v-layout(row)
+        v-text-field(
+          v-model="content"
+          @click:append="add"
+          append-icon="create"
+          solo
+          hide-details
+        )
 </template>
 
 <script lang="ts">

@@ -1,8 +1,8 @@
 <template lang="pug">
   v-layout(column)
     v-btn(@click="signOut") sign out
-    todo-list
     todo-post
+    todo-list
 </template>
 
 <script lang="ts">

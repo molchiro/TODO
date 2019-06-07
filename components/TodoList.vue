@@ -1,9 +1,6 @@
 <template lang="pug">
   v-card
-    v-list(two-line)
-      v-layout.px-3
-        v-flex(xs2) done
-        v-flex.text-xs-center(grow) content
+    v-list
       div.py-0(
         v-for="todo in todos"
         :key="todo.id"
