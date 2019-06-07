@@ -5,6 +5,7 @@
     )
     v-list-tile-content
       v-list-tile-title {{todo.content}}
+    v-icon(@click='deleteTodo') delete
     
 </template>
 
@@ -25,6 +26,9 @@ export default class TodoItemComponent extends Vue {
       id: this.todo.id,
       done: !!val
     })
+  }
+  deleteTodo(): void {
+    this.$store.dispatch('todos/delete', this.todo.id)
   }
 }
 </script>

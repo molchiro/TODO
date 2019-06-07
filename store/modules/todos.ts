@@ -38,7 +38,7 @@ export default {
         todosRef.where('uid', '==', rootGetters['auth/authedUserUid']).orderBy('priority', 'asc')
       )
     }),
-    add({ commit, rootState }, content) {
+    add({ rootState }, content) {
       todosRef.add({
         content: content,
         uid: rootState.auth.authedUser.uid,
@@ -46,7 +46,7 @@ export default {
         done: false
       })
     },
-    update({ state, rootState }, todo: todo) {
+    update({}, todo: todo) {
       todosRef.doc(todo.id).set(
         {
           uid: todo.uid,
@@ -58,6 +58,9 @@ export default {
           merge: true,
         }
       )
+    },
+    delete({}, id) {
+      todosRef.doc(id).delete()
     },
   }
 }
