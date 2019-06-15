@@ -34,6 +34,11 @@ export default {
       todos: []
     }
   },
+  getters: {
+    maxPriority: state => {
+      return Math.max(0, ...state.todos.map(todo => todo.priority))
+    }
+  },
   actions: {
     bind: firestoreAction(({ bindFirestoreRef, rootGetters }) => {
       return bindFirestoreRef(
@@ -41,11 +46,11 @@ export default {
         todosRef.where('uid', '==', rootGetters['auth/authedUserUid']).orderBy('priority', 'asc')
       )
     }),
-    add({ rootState }, content) {
+    add({ rootState, getters }, content) {
       todosRef.add({
         content: content,
         uid: rootState.auth.authedUser.uid,
-        priority: 0,
+        priority: getters['maxPriority'] + 1,
         done: false,
         doneAt: null
       })
