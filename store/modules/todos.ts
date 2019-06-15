@@ -1,3 +1,4 @@
+import firebase from 'firebase/app'
 import { firestoreAction } from 'vuexfire'
 import { db } from '~/plugins/firebaseApp.js'
 const todosRef = db.collection('todos')
@@ -7,7 +8,8 @@ interface todo {
   uid: string,
   content: string,
   priority: number,
-  done: boolean
+  done: boolean,
+  doneAt: Date
 }
 
 interface State {
@@ -20,7 +22,8 @@ class MyTodo implements todo {
     public uid: string,
     public content: string,
     public priority: number,
-    public done: boolean
+    public done: boolean,
+    public doneAt: Date
   ) {}
 }
 
@@ -43,16 +46,15 @@ export default {
         content: content,
         uid: rootState.auth.authedUser.uid,
         priority: 0,
-        done: false
+        done: false,
+        doneAt: null
       })
     },
-    update({}, todo: todo) {
+    updateDone({}, todo: todo) {
       todosRef.doc(todo.id).set(
         {
-          uid: todo.uid,
-          content: todo.content,
-          priority: todo.priority,
-          done: todo.done
+          done: todo.done,
+          doneAt: todo.done ? firebase.firestore.FieldValue.serverTimestamp() : null
         },
         {
           merge: true,
