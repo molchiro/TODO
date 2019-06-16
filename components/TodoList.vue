@@ -1,11 +1,10 @@
 <template lang="pug">
   v-card
-    v-list
-      div.py-0(
-        v-for="todo in todos"
-        :key="todo.id"
-      )
-        todo-item(:todo="todo")
+    todo-item(
+      v-for="todo in todos"
+      :key="todo.id"
+      :todo="todo"
+    )
 </template>
 
 <script lang="ts">
