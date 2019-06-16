@@ -43,7 +43,11 @@ export default {
     bind: firestoreAction(({ bindFirestoreRef, rootGetters }) => {
       return bindFirestoreRef(
         'todos',
-        todosRef.where('uid', '==', rootGetters['auth/authedUserUid']).orderBy('priority', 'asc')
+        todosRef
+          .where('uid', '==', rootGetters['auth/authedUserUid'])
+          .orderBy('done', 'asc')
+          .orderBy('doneAt', 'desc')
+          .orderBy('priority', 'desc')
       )
     }),
     add({ rootState, getters }, content) {
