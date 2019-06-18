@@ -59,6 +59,32 @@ export default {
         }
       )
     },
+    raisePriority({ state }, id) {
+      const targetIndex: number = state.todos.findIndex(
+        x => x.id === id
+      )
+      let newPriority: number = 0
+      if (targetIndex < 2) {
+        newPriority = state.todos[0].priority + 1
+      } else {
+        newPriority = (state.todos[targetIndex - 1].priority
+          + state.todos[targetIndex - 2].priority) / 2
+      } 
+      todosRef.doc(id).update({ priority: newPriority })
+    },
+    lowerPriority({ state }, id) {
+      const targetIndex: number = state.todos.findIndex(
+        x => x.id === id
+      )
+      let newPriority: number = 0
+      if (targetIndex > state.todos.length - 3) {
+        newPriority = state.todos[state.todos.length-1].priority - 1
+      } else {
+        newPriority = (state.todos[targetIndex + 1].priority
+        + state.todos[targetIndex + 2].priority) / 2
+      }
+      todosRef.doc(id).update({ priority: newPriority })
+    },
     delete({}, id) {
       todosRef.doc(id).delete()
     },

@@ -1,10 +1,22 @@
 <template lang="pug">
   v-list-tile
+    v-btn.mx-0(
+      @click="raisePriority"
+      icon
+      small
+    )
+      v-icon arrow_upward
+    v-btn.ml-0(
+      @click="lowerPriority"
+      icon
+      small
+    )
+      v-icon arrow_downward
     v-checkbox(
       v-model='done'
     )
     v-list-tile-content
-      v-list-tile-title {{todo.content}}
+      v-list-tile-title {{todo.content}} {{todo.priority}}
     v-icon(@click='deleteTodo') delete
     
 </template>
@@ -29,6 +41,12 @@ export default class TodoItemComponent extends Vue {
   }
   deleteTodo(): void {
     this.$store.dispatch('todos/delete', this.todo.id)
+  }
+  raisePriority(): void {
+    this.$store.dispatch('todos/raisePriority', this.todo.id)
+  }
+  lowerPriority(): void {
+    this.$store.dispatch('todos/lowerPriority', this.todo.id)
   }
 }
 </script>
