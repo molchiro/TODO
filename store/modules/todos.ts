@@ -16,17 +16,6 @@ interface State {
   todos: todo[]
 }
 
-class MyTodo implements todo {
-  constructor(
-    public id: string,
-    public uid: string,
-    public content: string,
-    public priority: number,
-    public done: boolean,
-    public doneAt: Date
-  ) {}
-}
-
 export default {
   namespaced: true,
   state(): State {
