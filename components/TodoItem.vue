@@ -4,7 +4,7 @@
       v-model='done'
     )
     v-list-tile-content
-      v-list-tile-title {{todo.content}} {{todo.priority}}
+      v-list-tile-title {{todo.content}}
     v-btn.mx-0(
       @click="raisePriority"
       :disabled="index === 0 || done"
