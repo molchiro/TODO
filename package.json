@@ -23,6 +23,7 @@
     "vue-property-decorator": "^8.1.1",
     "vuetify": "^1.5.5",
     "vuetify-loader": "^1.2.1",
+    "vuex-module-decorators": "^0.9.9",
     "vuexfire": "^3.0.0-alpha.18"
   },
   "devDependencies": {
