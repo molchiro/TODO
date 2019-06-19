@@ -7,14 +7,14 @@
       v-list-tile-title {{todo.content}} {{todo.priority}}
     v-btn.mx-0(
       @click="raisePriority"
-      :disabled="done"
+      :disabled="index === 0 || done"
       icon
       small
     )
       v-icon arrow_upward
     v-btn.ml-0(
       @click="lowerPriority"
-      :disabled="done"
+      :disabled="index === lastNotYetTodoIndex || done"
       icon
       small
     )
@@ -30,6 +30,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 export default class TodoItemComponent extends Vue {
   @Prop()
   readonly todo
+  @Prop()
+  readonly index
 
   get done() {
     return this.todo.done
@@ -40,6 +42,9 @@ export default class TodoItemComponent extends Vue {
       id: this.todo.id,
       done: !!val
     })
+  }
+  get lastNotYetTodoIndex() {
+    return this.$store.getters['todos/lastNotYetTodoIndex']
   }
   deleteTodo(): void {
     this.$store.dispatch('todos/delete', this.todo.id)

@@ -1,8 +1,9 @@
 <template lang="pug">
   v-card
     todo-item(
-      v-for="todo in todos"
+      v-for="(todo, index) in todos"
       :key="todo.id"
+      :index="index"
       :todo="todo"
     )
 </template>

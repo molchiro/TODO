@@ -26,6 +26,9 @@ export default {
   getters: {
     maxPriority: state => {
       return Math.max(0, ...state.todos.map(todo => todo.priority))
+    },
+    lastNotYetTodoIndex: state => {
+      return state.todos.filter(el => el.done === false).length - 1
     }
   },
   actions: {
@@ -72,13 +75,14 @@ export default {
       } 
       todosRef.doc(id).update({ priority: newPriority })
     },
-    lowerPriority({ state }, id) {
+    lowerPriority({ state, getters }, id) {
       const targetIndex: number = state.todos.findIndex(
         x => x.id === id
       )
+      const lastNotYetTodoIndex = getters['lastNotYetTodoIndex']
       let newPriority: number = 0
-      if (targetIndex > state.todos.length - 3) {
-        newPriority = state.todos[state.todos.length-1].priority - 1
+      if (targetIndex > lastNotYetTodoIndex - 2) {
+        newPriority = state.todos[lastNotYetTodoIndex].priority * 0.9
       } else {
         newPriority = (state.todos[targetIndex + 1].priority
         + state.todos[targetIndex + 2].priority) / 2
