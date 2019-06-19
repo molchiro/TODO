@@ -1,22 +1,24 @@
 <template lang="pug">
   v-list-tile
+    v-checkbox(
+      v-model='done'
+    )
+    v-list-tile-content
+      v-list-tile-title {{todo.content}} {{todo.priority}}
     v-btn.mx-0(
       @click="raisePriority"
+      :disabled="done"
       icon
       small
     )
       v-icon arrow_upward
     v-btn.ml-0(
       @click="lowerPriority"
+      :disabled="done"
       icon
       small
     )
       v-icon arrow_downward
-    v-checkbox(
-      v-model='done'
-    )
-    v-list-tile-content
-      v-list-tile-title {{todo.content}} {{todo.priority}}
     v-icon(@click='deleteTodo') delete
     
 </template>
