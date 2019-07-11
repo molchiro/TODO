@@ -1,8 +1,12 @@
+import { getModule } from 'vuex-module-decorators'
+import authModule from '@/store/modules/auth'
+
 export default async function({ store, redirect, route }) {
-  if (store.getters['auth/isLoaded'] === false) {
-    await store.dispatch('auth/getCurrentUser')
+  const authStore = getModule(authModule, store)
+  if (authStore.isLoaded === false) {
+    await authStore.getCurrentUser()
   }
-  if (store.getters['auth/isAuthed']) {
+  if (authStore.isAuthed) {
     if (route.name === 'sign_in')
     redirect({ name: 'index' })
   } else {

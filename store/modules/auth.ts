@@ -1,50 +1,39 @@
+import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { auth, googleProvider } from '~/plugins/firebaseApp'
 
-interface State {
-  isLoaded: boolean,
-  authedUser: any
-}
-
-export default {
-  namespaced: true,
-  state(): State {
-    return {
-      isLoaded: false,
-      authedUser: null
-    }
-  },
-  mutations: {
-    loadedUser(state, user) {
-      state.authedUser = user
-      state.isLoaded = true
-    },
-  },
-  getters: {
-    isAuthed: state => {
-      return state.authedUser !== null
-    },
-    isLoaded: state => {
-      return state.isLoaded
-    },
-    authedUserUid: state => {
-      return state.authedUser ? state.authedUser.uid : null
-    }
-  },
-  actions: {
-    signIn({ commit }): void {
-      auth.signInWithRedirect(googleProvider)
-    },
-    signOut({ commit }): void {
-      auth.signOut()
-      commit('loadedUser', null)
-    },
-    async getCurrentUser({ commit }) {
-      const currentUser: firebase.User | null = await new Promise((resolve, reject) => {
-        auth.onAuthStateChanged(authenticatedUser => {
-          resolve(authenticatedUser)
-        })
+@Module({ namespaced: true, name: 'auth' })
+export default class authModule extends VuexModule {
+  isLoaded: boolean = false
+  authedUser = {
+    uid: ''
+  }
+  @Mutation
+  loadedUser(user: firebase.User) {
+    this.authedUser.uid = user.uid
+    this.isLoaded = true
+  }
+  get isAuthed() {
+    return this.authedUser.uid !== ''
+  }
+  get authedUserUid() {
+    return this.authedUser.uid
+  }
+  @Action
+  signIn() {
+    auth.signInWithRedirect(googleProvider)
+  }
+  @Action
+  signOut() {
+    auth.signOut()
+    this.context.commit('loadedUser', null)
+  }
+  @Action
+  async getCurrentUser() {
+    const currentUser: firebase.User | null = await new Promise((resolve, reject) => {
+      auth.onAuthStateChanged(authenticatedUser => {
+        resolve(authenticatedUser)
       })
-      commit('loadedUser', currentUser)
-    },
+    })
+    this.context.commit('loadedUser', currentUser)
   }
 }

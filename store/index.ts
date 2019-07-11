@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { vuexfireMutations } from 'vuexfire'
-import auth from './modules/auth'
+import authModule from './modules/auth'
 import todos from './modules/todos'
 
 Vue.use(Vuex)
@@ -12,7 +12,7 @@ const createStore = () => {
       ...vuexfireMutations,
     },
     modules: {
-      auth,
+      auth: authModule,
       todos
     }
   })
