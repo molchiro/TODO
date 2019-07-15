@@ -5,20 +5,6 @@
     )
     v-list-tile-content
       v-list-tile-title {{todo.content}}
-    v-btn.mx-0(
-      @click="raisePriority"
-      :disabled="index === 0 || done"
-      icon
-      small
-    )
-      v-icon arrow_upward
-    v-btn.ml-0(
-      @click="lowerPriority"
-      :disabled="index === lastNotYetTodoIndex || done"
-      icon
-      small
-    )
-      v-icon arrow_downward
     v-icon(@click='deleteTodo') delete
     
 </template>
@@ -48,12 +34,6 @@ export default class TodoItemComponent extends Vue {
   }
   deleteTodo(): void {
     this.$store.dispatch('todos/delete', this.todo.id)
-  }
-  raisePriority(): void {
-    this.$store.dispatch('todos/raisePriority', this.todo.id)
-  }
-  lowerPriority(): void {
-    this.$store.dispatch('todos/lowerPriority', this.todo.id)
   }
 }
 </script>
