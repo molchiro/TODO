@@ -2,7 +2,7 @@
   v-card
     draggable(
       :value="todos"
-      @change="moved($event)"
+      @end="moved($event)"
     )
       todo-item(
         v-for="(todo, index) in todos"
@@ -32,7 +32,7 @@ export default class TodoListComponent extends Vue {
   //   this.$store.dispatch('todos/stopListener')
   // }
   moved(event) {
-    this.$store.dispatch('todos/moved', event.moved)
+    this.$store.dispatch('todos/moved', event)
   }
 }
 </script>

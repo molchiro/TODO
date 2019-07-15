@@ -62,7 +62,7 @@ export default {
         }
       )
     },
-    moved({ state, getters }, { element, oldIndex,  newIndex }) {
+    moved({ state, getters }, { oldIndex,  newIndex }) {
       let newPriority: number = 0
       if (newIndex === 0) {
         newPriority = state.todos[0].priority + 1
@@ -73,7 +73,8 @@ export default {
       } else {
         newPriority = (state.todos[newIndex].priority + state.todos[newIndex + 1].priority) / 2
       }
-      todosRef.doc(element.id).update({ priority: newPriority })
+      const targetId = state.todos[oldIndex].id
+      todosRef.doc(targetId).update({ priority: newPriority })
     },
     delete({}, id) {
       todosRef.doc(id).delete()
