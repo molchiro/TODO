@@ -16,8 +16,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 export default class TodoItemComponent extends Vue {
   @Prop()
   readonly todo
-  @Prop()
-  readonly index
 
   get done() {
     return this.todo.done

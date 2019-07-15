@@ -5,9 +5,8 @@
       @end="moved($event)"
     )
       todo-item(
-        v-for="(todo, index) in todos"
+        v-for="todo in todos"
         :key="todo.id"
-        :index="index"
         :todo="todo"
       )
 </template>
