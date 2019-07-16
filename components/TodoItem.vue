@@ -27,9 +27,6 @@ export default class TodoItemComponent extends Vue {
       done: !!val
     })
   }
-  get lastNotYetTodoIndex() {
-    return this.$store.getters['todos/lastNotYetTodoIndex']
-  }
   deleteTodo(): void {
     this.$store.dispatch('todos/delete', this.todo.id)
   }

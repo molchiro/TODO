@@ -28,9 +28,6 @@ export default class TodoListComponent extends Vue {
   created(): void {
     this.$store.dispatch('todos/bind')
   }
-  // destroyed(): void {
-  //   this.$store.dispatch('todos/stopListener')
-  // }
   moved(event) {
     this.$store.dispatch('todos/moved', event)
   }
