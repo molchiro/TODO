@@ -8,8 +8,8 @@ export default class authModule extends VuexModule {
     uid: ''
   }
   @Mutation
-  loadedUser(user: firebase.User) {
-    this.authedUser.uid = user.uid
+  loadedUser({ uid }) {
+    this.authedUser.uid = uid
     this.isLoaded = true
   }
   get isAuthed() {
@@ -25,7 +25,7 @@ export default class authModule extends VuexModule {
   @Action
   signOut() {
     auth.signOut()
-    this.context.commit('loadedUser', null)
+    this.context.commit('loadedUser', { uid: '' })
   }
   @Action
   async getCurrentUser() {
@@ -34,6 +34,7 @@ export default class authModule extends VuexModule {
         resolve(authenticatedUser)
       })
     })
-    this.context.commit('loadedUser', currentUser)
+    const uid: string = currentUser ? currentUser.uid : ''
+    this.context.commit('loadedUser', { uid })
   }
 }
