@@ -3,6 +3,7 @@
     draggable(
       :value="todos"
       @end="moved($event)"
+      delay="100"
     )
       todo-item(
         v-for="todo in todos"
