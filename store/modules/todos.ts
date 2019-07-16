@@ -62,32 +62,19 @@ export default {
         }
       )
     },
-    raisePriority({ state }, id) {
-      const targetIndex: number = state.todos.findIndex(
-        x => x.id === id
-      )
+    moved({ state, getters }, { oldIndex,  newIndex }) {
       let newPriority: number = 0
-      if (targetIndex < 2) {
+      if (newIndex === 0) {
         newPriority = state.todos[0].priority + 1
+      } else if (newIndex >= getters['lastNotYetTodoIndex']) {
+        newPriority = state.todos[getters['lastNotYetTodoIndex']].priority * 0.9
+      } else if (newIndex < oldIndex) {
+        newPriority = (state.todos[newIndex].priority + state.todos[newIndex - 1].priority) / 2
       } else {
-        newPriority = (state.todos[targetIndex - 1].priority
-          + state.todos[targetIndex - 2].priority) / 2
-      } 
-      todosRef.doc(id).update({ priority: newPriority })
-    },
-    lowerPriority({ state, getters }, id) {
-      const targetIndex: number = state.todos.findIndex(
-        x => x.id === id
-      )
-      const lastNotYetTodoIndex = getters['lastNotYetTodoIndex']
-      let newPriority: number = 0
-      if (targetIndex > lastNotYetTodoIndex - 2) {
-        newPriority = state.todos[lastNotYetTodoIndex].priority * 0.9
-      } else {
-        newPriority = (state.todos[targetIndex + 1].priority
-        + state.todos[targetIndex + 2].priority) / 2
+        newPriority = (state.todos[newIndex].priority + state.todos[newIndex + 1].priority) / 2
       }
-      todosRef.doc(id).update({ priority: newPriority })
+      const targetId = state.todos[oldIndex].id
+      todosRef.doc(targetId).update({ priority: newPriority })
     },
     delete({}, id) {
       todosRef.doc(id).delete()
