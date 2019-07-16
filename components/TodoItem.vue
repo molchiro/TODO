@@ -1,11 +1,11 @@
 <template lang="pug">
   v-list-tile
     v-checkbox(
-      v-model='done'
+      v-model="done"
     )
     v-list-tile-content
       v-list-tile-title {{todo.content}}
-    v-icon(@click='deleteTodo') delete
+    v-icon(@click="deleteTodo") delete
     
 </template>
 
