@@ -1,7 +1,10 @@
 <template lang="pug">
   v-layout(column)
     v-flex(shrink)
-      v-btn(block @click="signOut") sign out
+      v-btn( 
+        @click="signOut"
+        block
+      ) sign out
     v-flex(shrink)
       todo-post
     v-flex(grow)
