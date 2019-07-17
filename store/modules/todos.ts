@@ -51,14 +51,11 @@ export default {
         doneAt: null
       })
     },
-    updateDone({}, todo: todo) {
-      todosRef.doc(todo.id).set(
+    updateDone({}, { done, id }) {
+      todosRef.doc(id).update(
         {
-          done: todo.done,
-          doneAt: todo.done ? firebase.firestore.FieldValue.serverTimestamp() : null
-        },
-        {
-          merge: true,
+          done: done,
+          doneAt: done ? firebase.firestore.FieldValue.serverTimestamp() : null
         }
       )
     },

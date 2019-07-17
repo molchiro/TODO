@@ -18,7 +18,6 @@ export default class TodoItemComponent extends Vue {
   }
   set done(val) {
     this.$store.dispatch('todos/updateDone', {
-      ...this.todo,
       id: this.todo.id,
       done: !!val
     })
