@@ -13,7 +13,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 export default class TodoItemComponent extends Vue {
   @Prop()
   readonly todo
-  get done() {
+  get done(): boolean {
     return this.todo.done
   }
   set done(val) {

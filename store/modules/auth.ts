@@ -12,18 +12,18 @@ export default class authModule extends VuexModule {
     this.authedUser.uid = uid
     this.isLoaded = true
   }
-  get isAuthed() {
+  get isAuthed(): boolean {
     return this.authedUser.uid !== ''
   }
-  get authedUserUid() {
+  get authedUserUid(): string {
     return this.authedUser.uid
   }
   @Action
-  signIn() {
+  signIn(): void {
     auth.signInWithRedirect(googleProvider)
   }
   @Action
-  signOut() {
+  signOut(): void {
     auth.signOut()
     this.context.commit('loadedUser', { uid: '' })
   }

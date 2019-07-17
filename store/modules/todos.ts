@@ -42,7 +42,7 @@ export default {
           .orderBy('priority', 'desc')
       )
     }),
-    add({ rootState, getters }, content) {
+    add({ rootState, getters }, content): void {
       todosRef.add({
         content: content,
         uid: rootState.auth.authedUser.uid,
@@ -51,7 +51,7 @@ export default {
         doneAt: null
       })
     },
-    updateDone({}, { done, id }) {
+    updateDone({}, { done, id }): void {
       todosRef.doc(id).update(
         {
           done: done,
@@ -59,7 +59,7 @@ export default {
         }
       )
     },
-    updatePriority({ state, getters }, { oldIndex,  newIndex }) {
+    updatePriority({ state, getters }, { oldIndex,  newIndex }): void {
       let newPriority: number = 0
       if (newIndex === 0) {
         newPriority = state.todos[0].priority + 1
@@ -72,7 +72,7 @@ export default {
       const targetId = state.todos[oldIndex].id
       todosRef.doc(targetId).update({ priority: newPriority })
     },
-    delete({}, id) {
+    delete({}, id): void {
       todosRef.doc(id).delete()
     },
   }
