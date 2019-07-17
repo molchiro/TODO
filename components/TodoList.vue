@@ -29,7 +29,7 @@ export default class TodoListComponent extends Vue {
     this.$store.dispatch('todos/bind')
   }
   moved(event) {
-    this.$store.dispatch('todos/moved', event)
+    this.$store.dispatch('todos/updatePriority', event)
   }
 }
 </script>
